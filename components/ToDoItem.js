@@ -5,12 +5,12 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 export default function ToDoItem({ item, pressHandler }) {
     return (
         <TouchableOpacity onPress={()=>pressHandler(item)}>
-            <Text style={styles.item}>{item.text}</Text>
+            <Text style={style.item}>{item.text}</Text>
         </TouchableOpacity>
     )
 }
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
     item :{
         marginHorizontal: 20,
         backgroundColor: 'pink',

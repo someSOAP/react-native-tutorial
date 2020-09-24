@@ -1,15 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-import Header from './components/Header'
+import Header   from './components/Header'
 import ToDoItem from "./components/ToDoItem";
-
+import AddToDo  from "./components/AddToDo";
 
 export default function App() {
 
   const [todos, setTodos] = useState([
     {text: "buy coffee"},
-    {text: "buy coffevee"},
     {text: "text to Trump"},
     {text: "sleep"},
     {text: "pay bills"},
@@ -17,24 +16,27 @@ export default function App() {
     {text: "pay bills 3"}
   ]);
 
+  const addHandler = (text) => {
+    setTodos((prevTodos) => [...prevTodos, { text }])
+  };
 
-  const pressHandler = (itemToDelete) => {
+  const deleteHandler = (itemToDelete) => {
     setTodos((prevTodos) => {
       return prevTodos.filter(todo => todo !== itemToDelete)
     })
   };
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       <Header/>
-      <View style={styles.content}>
-        {/** to form */}
-        <View style={styles.list}>
+      <View style={style.content}>
+        <AddToDo onPress={addHandler}/>
+        <View style={style.list}>
           <FlatList
             keyExtractor = {(item, index) => String(index)}
             data = {todos}
             renderItem = { ({ item }) => (
-                <ToDoItem item={item} pressHandler={pressHandler}/>
+                <ToDoItem item={item} pressHandler={deleteHandler}/>
             )}
           />
         </View>
@@ -44,9 +46,9 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
     backgroundColor: 'lightblue',
   },
   content: {
