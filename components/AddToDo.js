@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Button } from 'react-native'
+import { StyleSheet, View, TextInput, Button, Keyboard } from 'react-native'
 
 
 export default function AddToDo({ onPress }) {
@@ -17,12 +17,13 @@ export default function AddToDo({ onPress }) {
                 style={style.input}
                 placeholder='new todo...'
                 onChangeText ={changeHandler}
-                placeholderTextColor = "rgba(255, 255, 255, 0.6)"
+                placeholderTextColor = "rgba(255, 255, 255, 0.8)"
             />
             <Button 
                 onPress = {()=> {
                     onPress(text)
                     setText("")
+                    Keyboard.dismiss()
                 }} 
                 title="add todo" 
                 color="coral"

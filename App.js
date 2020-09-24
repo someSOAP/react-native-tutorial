@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Header   from './components/Header'
 import ToDoItem from "./components/ToDoItem";
 import AddToDo  from "./components/AddToDo";
@@ -9,15 +9,17 @@ export default function App() {
 
   const [todos, setTodos] = useState([
     {text: "buy coffee"},
-    {text: "text to Trump"},
-    {text: "sleep"},
-    {text: "pay bills"},
-    {text: "pay bills 2"},
-    {text: "pay bills 3"}
+    {text: "pay bills"}
   ]);
 
   const addHandler = (text) => {
-    setTodos((prevTodos) => [...prevTodos, { text }])
+    if(text.length > 3){
+      setTodos((prevTodos) => [...prevTodos, { text }])
+    } else {
+      Alert.alert("Attention!", "Todos text must contain at least 4 characters!", [
+        {text: 'Understood'}
+      ]);
+    }
   };
 
   const deleteHandler = (itemToDelete) => {
@@ -27,35 +29,36 @@ export default function App() {
   };
 
   return (
-    <View style={style.container}>
-      <Header/>
-      <View style={style.content}>
-        <AddToDo onPress={addHandler}/>
-        <View style={style.list}>
-          <FlatList
-            keyExtractor = {(item, index) => String(index)}
-            data = {todos}
-            renderItem = { ({ item }) => (
-                <ToDoItem item={item} pressHandler={deleteHandler}/>
-            )}
-          />
+    <TouchableWithoutFeedback onPress = {Keyboard.dismiss}>
+      <View style={style.container}>
+        <Header/>
+        <View style={style.content}>
+          <AddToDo onPress={addHandler}/>
+          <View style={style.list}>
+            <FlatList
+              keyExtractor = {(item, index) => String(index)}
+              data = {todos}
+              renderItem = { ({ item }) => (
+                  <ToDoItem item={item} pressHandler={deleteHandler}/>
+              )}
+            />
+          </View>
         </View>
-        {/** to form */}
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const style = StyleSheet.create({
   container: {
-    height: '100%',
+    flex: 1,
     backgroundColor: 'lightblue',
   },
   content: {
-
+    flex: 1,
   },
   list: {
-
+    flex: 1,
   },
   toDo: {
     backgroundColor: 'pink',
